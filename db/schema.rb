@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160510170225) do
+ActiveRecord::Schema.define(version: 20160517181221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,5 +44,18 @@ ActiveRecord::Schema.define(version: 20160510170225) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "seasons", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "goal"
+    t.integer  "appearance"
+    t.integer  "assist"
+    t.integer  "seasonable_id"
+    t.string   "seasonable_type"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "seasons", ["seasonable_type", "seasonable_id"], name: "index_seasons_on_seasonable_type_and_seasonable_id", using: :btree
 
 end

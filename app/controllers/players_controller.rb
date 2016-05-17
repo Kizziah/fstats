@@ -5,7 +5,7 @@ class PlayersController < ApplicationController
   # GET /players.json
   def index
     # @players = Player.all
-    @players = Player.all.joins(:club)
+    @players = Player.all.includes(:club).includes(:nation)
   end
 
   # GET /players/1
