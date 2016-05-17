@@ -4,7 +4,8 @@ class PlayersController < ApplicationController
   # GET /players
   # GET /players.json
   def index
-    @players = Player.all
+    # @players = Player.all
+    @players = Player.all.joins(:club)
   end
 
   # GET /players/1

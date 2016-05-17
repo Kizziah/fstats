@@ -1,17 +1,55 @@
 DCUNITED = %w(Andrew Dykstra Bill Hamid Tally Hall Charlie Horton Travis Worra Steve Birnbaum Bobby Boswell Sean Franklin Taylor Kemp Chris Korb Luke Mishu Kofi Opare Jalen Robinson Luciano Acosta Miguel Aguilar Julian Buescher Paul Clowes Nick DeLeon Markus Halsti Jared Jeffrey Andrea Mancini Collin Martin Lamar Neagle Patrick Nyarko Chris Rolfe Marcelo Sarvas Rob Vincent Fabian Espindola Alvaro Saborio)
-	
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+
+@mls = League.create(name: "MLS")
+@ucl = League.create(name: "UCL")
+@ucl = League.create(name: "UCL")
+@uel = League.create(name: "UEL")
+@ccl = League.create(name: "CCL")
+@epl = League.create(name: "EPL")
+@epl2 = League.create(name: "EPL2")
+@epl3 = League.create(name: "EPL3")
+@spl = League.create(name: "SPL")
+@bund = League.create(name: "BUND")
+@bund2 = League.create(name: "BUND2")
+@usa = Nation.find_by_name("USA")	
+
+Sutherland = [
+	[  'Jordan Pickford', '(G)', 'England'],
+	[  'Vito Mannone', '(G)', 'Italy'],
+	[  'Maksymilian Stryjek', '(G)', 'Poland'],
+	[  'Steve Harper', '(G)', 'England'],
+	[  'Billy Jones', '(D)', 'England'],
+	[  'Wes Brown', '(D)', 'England'],
+	[  'Younes Kaboul', '(D)', 'France'], 
+	[  'Deandre Yedlin', '(D)', 'USA'],
+	[  'Jan Kirchhoff', '(D)', 'Germany'],
+	[  'Tom Beadling', '(D)', 'Australia'],
+	[  'Thomas Robson', '(D)', 'England'],
+	[  'Josh Robson', '(D)', 'England'],
+	[  'Lee Cattermole', '(M)', 'England'],
+	[  'Sebastian Larsson', '(M)', 'Sweden'],
+	[  'Jack Rodwell', '(M)', 'England'],
+	[  'Ola Toivonen', '(M)', 'Sweden'],
+	[  'Wahbi Khazri', '(M)', 'Tunisia'],
+	[  'Rees Greenwood', '(M)', 'England'],
+	[  'George Honeyman', '(M)', 'England'],
+	[  'Liam Agnew', '(M)', 'England'],
+	[  'Fabio Borini', '(F)', 'Italy'],
+	[  'Jeremain Lens', '(F)', 'Netherlands'],
+	[  'Jermain Defoe', '(F)', 'England'],
+	[  'Mikael Mandron', '(F)', 'France'],
+	[  "Dame N'Doye (F)]", "Senegal" ],
+	[  "Yann M'Vila", "(M)", "France"],
+	[  "John O'Shea", "(D)", "Ireland"],
+	[  "Patrick van Aanholt", "(D)", 'Netherlands'],
+	[  "Emmanuel Eboue", "(D)", "Ivory Coast"],	
+	[  'Duncan Watmore', '(F)],', 'England']
+]
 
 RAPIDS = [
 	["Eric Miller",    	 "USA"],
 	["Marc Burch",    	 "USA"],
-	["Mekeil Williams",    	 "Trinidad and Tobago"],
+	["Mekeil Williams",    	 "TT"],
 	["Sam Cronin",    	 "USA"],
 	["Dillon Powers",    	 "USA"],
 	["Kevin Doyle",    	 "Ireland"],
@@ -33,26 +71,28 @@ RAPIDS = [
 	["Marlon Hairston",    	 "USA"],
 ]
 
-NATIONS = %w(USA TT JAM ENG ARG CRICO)
-MLS_CLUBS = ["DC", "NE", "NYC", "COL", "LA", "SEA"]
+@sutherland = Club.create(name: "Sutherland", league_id: @epl.id)
+@dc = Club.create(name: "DC", league_id: @epl.id)
+@col = Club.create(name: "COL", league_id: @epl.id)
 
-@mls = League.create(name: "MLS")
-
-NATIONS.each do |n|
-	Nation.create(name: n)
+Sutherland.each do |player|
+	if Nation.exists?(name: player[2])
+		nation = Nation.find_by(name: player[2])
+		Player.create(name: player[0], nation_id: nation.id, club_id: @sutherland.id)
+	else
+		nation = Nation.create(name: player[2])
+		Player.create(name: player[0], nation_id: nation.id, club_id: @sutherland.id)
+	end
 end
 
-@usa = Nation.find_by_name("USA")
-
-MLS_CLUBS.each do |club|
-	Club.create(name: club, league_id: @mls.id)
-end
-
-@dc = Club.find_by_name("DC")
-@col = Club.find_by_name("COL")
-
-RAPIDS.each do |value|
-	Player.create(name: value[0], club_id: @col.id)
+RAPIDS.each do |player|	
+	if Nation.exists?(name: player[1])
+		nation = Nation.find_by(name: player[1])
+		Player.create(name: player[0], nation_id: nation.id, club_id: @col.id)
+	else
+		nation = Nation.create(name: player[1])
+		Player.create(name: player[0], nation_id: nation.id, club_id: @col.id)
+	end	
 end
 
 DCUNITED.each do |p|
